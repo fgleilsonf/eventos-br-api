@@ -3,40 +3,40 @@
 namespace App\Http\Controllers;
 
 use Exception;
-use App\User;
+use App\Event;
 use Illuminate\Support\Facades\Input;
 
-class UserController extends Controller
+class EVentController extends Controller
 {
     public function index()
     {
-        return User::all();
+        return Event::all();
     }
 
     public function show($id)
     {
-        return User::find($id);
+        return Event::find($id);
     }
 
     public function destroy($id)
     {
-        return User::destroy($id);
+        return Event::destroy($id);
     }
 
     public function store()
     {
         try {
-            $user = new User();
+            $event = new Event();
 
-            $user->name = Input::get('name');
-            $user->facebook_id = Input::get('facebook_id');
-            $user->email = Input::get('email');
-            $user->photo_profile = Input::get('photo_profile');
-            $user->photo_cover = Input::get('photo_cover');
+            $event->title = Input::get('title');
+            $event->message = Input::get('message');
+            $event->start_date = Input::get('start_date');
+            $event->end_date = Input::get('end_date');
+            $event->is_public = Input::get('is_public', false);
 
-            $user->save();
+            $event->save();
 
-            return $user;
+            return $event;
         } catch(Exception $e) {
             return array(
                 'response_message' => 'Erro ao atualizar dados do usuário. '.$e->getMessage()
