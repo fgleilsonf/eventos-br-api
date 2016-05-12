@@ -15,7 +15,8 @@ class EVentController extends Controller
 
     public function show($id)
     {
-        return Event::find($id);
+        $event= Event::find($id);
+        return $event->comments;
     }
 
     public function destroy($id)
