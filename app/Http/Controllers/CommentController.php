@@ -2,36 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Comment;
 use Exception;
 use App\Event;
 use Illuminate\Support\Facades\Input;
 
-class EVentController extends Controller
+class CommentController extends Controller
 {
-    public function index()
+    public function byEventId($eventId)
     {
-        $events = Event::all();
-        foreach ($events as $event) {
-            foreach ($event->comments as $comment) {
-                $comment->user;
-            }
-
-            foreach ($event->likesEvents as $likesEvent) {
-                $likesEvent->user;
-            }
+        $comments = Comment::where('event_id', '=', $eventId)->get();
+        foreach ($comments as $comment) {
+            $comment->user;
         }
 
-        $event->user;
-
-        return $events;
+        return $comments;
     }
 
     public function show($id)
     {
-        $event = Event::find($id);
-        $event->comments;
-
-        return $event;
+        $comment = Comment::find($id);
+        $comment->user;
+        return $comment;
     }
 
     public function destroy($id)

@@ -12,5 +12,10 @@ Route::get('/', function () {
 
 Route::group(['middleware' => 'cors'], function () {
     Route::resource('users', 'UserController');
+
+    Route::get('events/{eventId}/comments', 'CommentController@byEventId');
+    Route::post('events/{eventId}/like', 'LikesEventController@store');
+
     Route::resource('events', 'EventController');
+    Route::resource('comments', 'CommentController');
 });
