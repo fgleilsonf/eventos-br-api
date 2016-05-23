@@ -158,6 +158,8 @@ return [
 
         Appzcoder\CrudGenerator\CrudGeneratorServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
+
+        Barryvdh\Cors\ServiceProvider::class,
     ],
 
     /*

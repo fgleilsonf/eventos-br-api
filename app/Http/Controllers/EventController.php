@@ -19,9 +19,11 @@ class EVentController extends Controller
             foreach ($event->likesEvents as $likesEvent) {
                 $likesEvent->user;
             }
-        }
 
-        $event->user;
+            $event->user;
+            $event->media;
+            $event->medias;
+        }
 
         return $events;
     }
@@ -46,8 +48,8 @@ class EVentController extends Controller
 
             $event->title = Input::get('title');
             $event->message = Input::get('message');
-            $event->start_date = Input::get('start_date');
-            $event->end_date = Input::get('end_date');
+            $event->start_date = Input::get('start_date', null);
+            $event->end_date = Input::get('end_date', null);
             $event->is_public = Input::get('is_public', false);
 
             $event->save();

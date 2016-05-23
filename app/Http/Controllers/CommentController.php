@@ -19,6 +19,18 @@ class CommentController extends Controller
         return $comments;
     }
 
+    public function index()
+    {
+        $params = Input::all();
+        $comments = Comment::where($params)->get();
+
+        foreach ($comments as $comment) {
+            $comment->user;
+        }
+
+        return $comments;
+    }
+
     public function show($id)
     {
         $comment = Comment::find($id);
@@ -28,23 +40,21 @@ class CommentController extends Controller
 
     public function destroy($id)
     {
-        return Event::destroy($id);
+        return Comment::destroy($id);
     }
 
     public function store()
     {
         try {
-            $event = new Event();
+            $comment = new Comment();
 
-            $event->title = Input::get('title');
-            $event->message = Input::get('message');
-            $event->start_date = Input::get('start_date');
-            $event->end_date = Input::get('end_date');
-            $event->is_public = Input::get('is_public', false);
+            $comment->message = Input::get('message');
+            $comment->user_id = Input::get('user_id');
+            $comment->event_id = Input::get('event_id');
 
-            $event->save();
+            $comment->save();
 
-            return $event;
+            return $comment;
         } catch(Exception $e) {
             return array(
                 'response_message' => 'Erro ao atualizar dados do usuário. '.$e->getMessage()
