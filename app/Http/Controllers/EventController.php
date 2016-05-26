@@ -48,6 +48,7 @@ class EVentController extends Controller
 
             $event->title = Input::get('title');
             $event->message = Input::get('message');
+            $event->user_id = Input::get('user_id');
             $event->start_date = Input::get('start_date', null);
             $event->end_date = Input::get('end_date', null);
             $event->is_public = Input::get('is_public', false);
@@ -65,23 +66,25 @@ class EVentController extends Controller
     public function update($id)
     {
         try {
-            $user = User::find($id);
-            if ($user) {
-                $user->name = Input::get('name', $user->name);
-                $user->photo_profile = Input::get('photo_profile', $user->photo_profile);
-                $user->photo_cover = Input::get('photo_cover', $user->photo_cover);
+            $event = Event::find($id);
+            if ($event) {
+                $event->message = Input::get('message', $event->message);
+                $event->title = Input::get('title', $event->title);
+                $event->start_date = Input::get('start_date', $event->start_date);
+                $event->end_date = Input::get('end_date', $event->end_date);
+                $event->is_public = Input::get('is_public', $event->is_public);
+            
+                $event->save();
 
-                $user->save();
-
-                return $user;
+                return $event;
             } else {
                 return array(
-                    'response_message'=> 'User id not found'
+                    'response_message'=> 'Event id not found'
                 );
             }
         } catch(Exception $e) {
             return array(
-                'response_message'=> 'Erro ao atualizar dados do usuário'.$e->getMessage()
+                'response_message'=> 'Erro ao atualizar dados do evento'.$e->getMessage()
             );
         }
     }

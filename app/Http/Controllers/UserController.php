@@ -26,13 +26,17 @@ class UserController extends Controller
     public function store()
     {
         try {
-            $user = new User();
+            $user = User::where('facebook_id', '=', Input::get('facebook_id'))->first();
 
-            $user->name = Input::get('name');
-            $user->facebook_id = Input::get('facebook_id');
-            $user->email = Input::get('email');
+            if (!$user) {
+                $user = new User();
+            }
+
+            $user->facebook_id = Input::get('facebook_id', $user['facebook_id']);
+            $user->name = Input::get('name', $user['name']);
             $user->photo_profile = Input::get('photo_profile');
             $user->photo_cover = Input::get('photo_cover');
+            $user->email = Input::get('email');
 
             $user->save();
 

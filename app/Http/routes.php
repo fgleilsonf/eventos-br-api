@@ -17,6 +17,8 @@ Route::group(['middleware' => 'cors'], function () {
     Route::get('events/{eventId}/medias', 'MediaController@byEventId');
     Route::post('events/{eventId}/like', 'LikesEventController@store');
 
+    Route::post('medias/upload', 'MediaController@upload');
+
     Route::resource('comments', 'CommentController');
     Route::resource('events', 'EventController');
     Route::resource('medias', 'MediaController');

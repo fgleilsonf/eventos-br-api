@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\MediasEvent;
 use Illuminate\Support\Facades\Input;
 
@@ -38,6 +39,32 @@ class MediaController extends Controller
         return MediasEvent::destroy($id);
     }
 
+    public function upload(Request $request)
+    {
+        $path = '../../eventos-br/src/public/uploads/';
+        $data = json_decode(Input::get('data'));
+
+        $file = $_FILES['file'];
+        $ext = explode('/', $file['type'])[1];
+
+        $newName = $data->id . $data->user_id . date("Y.m.d-H.i.s") . '.' . $ext;
+
+        if (move_uploaded_file($file['tmp_name'], $path . $newName)) {
+            $media = new MediasEvent();
+            $media->url = $newName;
+            $media->event_id = $data->id;
+            $media->user_id = $data->user_id;
+            $media->type = $data->type;
+            $media->display_order = -1;
+
+            $media->save();
+
+            return $media;
+        }
+
+        return 'Falha ao realizar upload';
+    }
+
     public function store()
     {
         try {
@@ -46,14 +73,15 @@ class MediaController extends Controller
             $media->url = Input::get('url');
             $media->event_id = Input::get('event_id');
             $media->user_id = Input::get('user_id');
-            $media->type_media = Input::get('type_media');
+            $media->type = Input::get('type');
+            $media->display_order = Input::get('display_order', -1);
 
             $media->save();
 
             return $media;
         } catch(Exception $e) {
             return array(
-                'response_message' => 'Erro ao atualizar dados do usuário. '.$e->getMessage()
+                'response_message' => 'Erro ao atualizar dados da mídia. '.$e->getMessage()
             );
         }
     }

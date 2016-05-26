@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateMediasEventsTable extends Migration
 {
@@ -16,8 +16,9 @@ class CreateMediasEventsTable extends Migration
             $table->increments('id');
             $table->bigInteger('user_id');
             $table->bigInteger('event_id');
+            $table->integer('display_order');
             $table->text('url');
-            $table->enum('type_media', [1, 2]);
+            $table->enum('type', [1, 2]);
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
 
